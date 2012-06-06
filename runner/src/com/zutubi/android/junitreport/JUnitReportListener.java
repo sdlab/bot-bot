@@ -251,7 +251,10 @@ public class JUnitReportListener implements TestListener {
                 	File f = mContext.getExternalFilesDir("junit");
                 	mOutputStream=new FileOutputStream(new File(f,fileName));
                 }else {
-                    mOutputStream = mTargetContext.openFileOutput(fileName, 0);
+                	String filePath = mTargetContext.getFilesDir().getPath()+"/junit/";
+                	File fJunit=new File(filePath);
+                	fJunit.mkdirs();
+                	mOutputStream=new FileOutputStream(new File(fJunit,fileName));
                 }
             } else {
                 mOutputStream = new FileOutputStream(new File(mReportDir, fileName));
@@ -330,6 +333,13 @@ public class JUnitReportListener implements TestListener {
         	if(f.exists()){
         		deleteDir(f);
         		f.mkdirs();
+        	}
+		}else {
+			String filePath = mTargetContext.getFilesDir().getPath()+"/junit/";
+        	File fJunit=new File(filePath);
+        	if(fJunit.exists()){
+        		deleteDir(fJunit);
+        		fJunit.mkdirs();
         	}
 		}
 		while (suiteIterator.hasNext()) {

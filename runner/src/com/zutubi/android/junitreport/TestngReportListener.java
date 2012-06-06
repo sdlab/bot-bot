@@ -257,7 +257,10 @@ public class TestngReportListener implements TestListener {
 					File f = mContext.getExternalFilesDir("testng");
 					mOutputStream = new FileOutputStream(new File(f, fileName));
 				} else {
-					mOutputStream = mTargetContext.openFileOutput(fileName, 0);
+					String filePath = mTargetContext.getFilesDir().getPath()+"/testng/";
+                	File fJunit=new File(filePath);
+                	fJunit.mkdirs();
+                	mOutputStream=new FileOutputStream(new File(fJunit,fileName));
 				}
 			} else {
 				mOutputStream = new FileOutputStream(new File(mReportDir,
@@ -348,6 +351,13 @@ public class TestngReportListener implements TestListener {
 				deleteDir(f);
 				f.mkdirs();
 			}
+		}else {
+			String filePath = mTargetContext.getFilesDir().getPath()+"/testng/";
+        	File fTestng=new File(filePath);
+        	if(fTestng.exists()){
+        		deleteDir(fTestng);
+        		fTestng.mkdirs();
+        	}
 		}
 		try {
 			openIfRequired();
